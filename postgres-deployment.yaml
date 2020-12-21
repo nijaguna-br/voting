@@ -1,0 +1,35 @@
+apiVersion: v1
+
+kind: Deployment
+
+metadata:
+  name: db-deployment
+  labels:
+    app: demo-voting-app
+
+spec:
+  selector:
+    matchLabels:
+      name: postgres-pod
+      app: demo-voting-app
+  replicas: 2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: postgres-pod
+      labels:
+        name: postgres-pod
+        app: demo-voting-app
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres" 
+  
